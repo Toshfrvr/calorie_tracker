@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load form_tags %}
+
+{% block title %}Add Calorie{% endblock %}
+
+{% block content %}
+    <div class="bg-[#14213d] min-h-screen p-8 rounded-2xl shadow-md">
+        <h2 class="text-2xl font-semibold text-[#fca311] mb-6 text-center">Add Calorie Entry</h2>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            {% for field in form %}
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-[#e5e5e5]">
+                        {{ field.label_tag }}
+                    </label>
+
+                    {% if field.field.widget.input_type == "checkbox" %}
+                        <div class="flex items-center space-x-2">
+                            {{ field }}
+                            <span class="text-[#e5e5e5]">{{ field.label }}</span>
+                        </div>
+                    {% else %}
+                        {{ field|add_class:"w-full p-2 rounded bg-gray-800 text-white border border-gray-600" }}
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ field.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-xl hover:bg-blue-700 transition">
+                Submit
+            </button>
+        </form>
+    </div>
+{% endblock %}
